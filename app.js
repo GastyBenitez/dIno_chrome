@@ -70,7 +70,11 @@ function HandleKeyDown(ev){
 }
 
 function Saltar(){
-    
+    if(dinoPosY === sueloY){
+        saltando = true;
+        velY = impulso;
+        dino.classList.remove("dino-corriendo");
+    }
 }
 
 
@@ -79,6 +83,9 @@ function Saltar(){
 function Update(){
 
     moverSUelo();
+    moverDinosaurio();
+
+    velY -= gravedad * deltaTime; 
 
 }
 
@@ -89,4 +96,21 @@ function moverSUelo(){
 
 function calcularDesplazamiento(){
     return velEscenario * deltaTime * gameVel;
+}
+
+function moverDinosaurio(){
+    dinoPosY += velY * deltaTime;
+    if(dinoPosY < sueloY){
+        TocarSuelo();
+    }
+    dino.style.bottom = dinoPosY + "px";
+}
+
+function TocarSuelo(){
+    dinoPosY = sueloY;
+    velY = 0;
+    if(saltando){
+        dino.classList.add("dino-corriendo");
+    }
+    saltando = false;
 }
